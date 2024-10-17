@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 interface ButtonProps {
   label: string;
-  onPress?: () => void;
+  onPress: () => void;
   theme?: string;
 }
 
@@ -23,14 +23,12 @@ const Button: FC<ButtonProps> = ({ label, onPress, theme = 'primary' }) => {
 
   return (
     <View style={styles.buttonContainer}>
-      <Pressable style={styles.button} onPress={() => alert('You pressed a button.')}>
+      <Pressable style={styles.button} onPress={onPress}>
         <Text style={styles.buttonLabel}>{label}</Text>
       </Pressable>
     </View>
   );
 };
-
-export default Button;
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -57,3 +55,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default Button;
