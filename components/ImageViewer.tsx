@@ -1,13 +1,18 @@
 import { StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
+import { FC } from 'react';
+
+const PlaceholderImage = require('@/assets/images/background-image.png');
 
 interface ImageViewerProps {
-  imgSource: string;
+  imgSource?: string;
 }
 
-export default function ImageViewer({ imgSource }: ImageViewerProps) {
-  return <Image source={imgSource} style={styles.image} />;
-}
+const ImageViewer: FC<ImageViewerProps> = ({ imgSource }) => {
+  return <Image source={imgSource ?? PlaceholderImage} style={styles.image} />;
+};
+
+export default ImageViewer;
 
 const styles = StyleSheet.create({
   image: {
