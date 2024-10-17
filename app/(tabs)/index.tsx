@@ -7,10 +7,15 @@ import ImageViewer from '@/components/ImageViewer';
 import { launchImageLibraryAsync } from 'expo-image-picker';
 import IconButton from '@/components/IconButton';
 import CircleButton from '@/components/CircleButton';
+import EmojiPicker from '@/components/EmojiPicker';
+import EmojiList from '@/components/EmojiList';
+import EmojiSticker from '@/components/EmojiSticker';
 
 export default function Index() {
   const [currentImage, setCurrentImage] = useState<undefined | string>(undefined);
   const [isAdditionalButtonsShown, setIsAdditionalButtonsShown] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [pickedEmoji, setPickedEmoji] = useState<string | undefined>(undefined);
 
   const pickImageAsync = async () => {
     let result = await launchImageLibraryAsync({
@@ -31,13 +36,21 @@ export default function Index() {
     setIsAdditionalButtonsShown(false);
   };
 
-  const onAddSticker = () => {};
+  const onAddSticker = () => {
+    setIsModalVisible(true);
+  };
+
+  const onClose = () => {
+    setIsModalVisible(false);
+  };
+
   const onSaveImageAsync = () => {};
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <ImageViewer imgSource={currentImage} />
+        {pickedEmoji && <EmojiSticker emoji={pickedEmoji} size={24} />}
       </View>
 
       {isAdditionalButtonsShown ? (
@@ -59,6 +72,11 @@ export default function Index() {
             }}
           />
         </View>
+      )}
+      {isModalVisible && (
+        <EmojiPicker isVisible={isModalVisible} onClose={onClose}>
+          <EmojiList onCloseModal={onClose} onSelect={setPickedEmoji} />
+        </EmojiPicker>
       )}
     </View>
   );
